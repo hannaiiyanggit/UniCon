@@ -50,6 +50,7 @@ def parse_option():
 
     # Augment
     parser.add_argument('--lamda', type=float, default=0.5, help='universum lambda')
+    parser.add_argument('--beta', action='store_true', help='using beta distribution')
     parser.add_argument('--size', type=int, default=32, help='parameter for RandomResizedCrop')
 
     # model dataset
@@ -231,7 +232,13 @@ def train(train_loader, model, criterion, optimizer, epoch, opt):
             image1 = image1.cuda(non_blocking=True)
             labels = labels.cuda(non_blocking=True)
 
-        image2 = opt.lamda * image1 + (1 - opt.lamda) * torch.flip(image1, dims=[0])
+        if opt.beta:
+            m = torch.distributions.beta.Beta(torch.tensor([opt.lamda]), torch.tensor([opt.lamda]))
+            lamda = m.sample().cuda()
+        else:
+            lamda = opt.lamda
+
+        image2 = lamda * image1 + (1 - lamda) * torch.flip(image1, dims=[0])
 
         bsz = labels.shape[0]
 
@@ -248,7 +255,7 @@ def train(train_loader, model, criterion, optimizer, epoch, opt):
 
         loss1 = criterion(features1, labels)
         loss2 = criterion(features2, labels)
-        loss = opt.lamda * loss1 + (1 - opt.lamda) * loss2
+        loss = lamda * loss1 + (1 - lamda) * loss2
 
         # update metric
         losses.update(loss.item(), bsz)
