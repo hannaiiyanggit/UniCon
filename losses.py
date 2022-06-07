@@ -58,12 +58,8 @@ class UniConLoss(nn.Module):
 
         # compute logits
         anchor_dot_contrast = torch.div(
-            torch.matmul(anchor_feature, contrast_feature.T),
-            self.temperature)  # produce the similarity matrix
-        uni_dot_contrast = anchor_dot_contrast = torch.div(
             torch.matmul(anchor_feature, universum.T),
             self.temperature)
-        anchor_dot_contrast = torch.cat([anchor_dot_contrast, uni_dot_contrast], dim=1)
 
         # for numerical stability
         logits_max, _ = torch.max(anchor_dot_contrast, dim=1, keepdim=True)  # find the biggest
@@ -79,12 +75,7 @@ class UniConLoss(nn.Module):
             0
         )
         mask = mask * logits_mask
-
-        # universum mask
-        unimask = torch.zeros_like(uni_dot_contrast)
-        mask = torch.cat([mask, unimask], dim=1)
-        logits_mask = torch.cat([logits_mask, unimask], dim=1)
-
+        
         # compute log_prob
         exp_logits = torch.exp(logits) * logits_mask
         log_prob = logits - torch.log(exp_logits.sum(1, keepdim=True))
