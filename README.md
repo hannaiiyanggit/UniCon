@@ -7,7 +7,7 @@ may perceive, if an animal is half dog and half cat, it is actually of neither s
 </p>
 With this intuition, our framework is like this:
 <p align="center">
-  <img src="pic/frame.png" width="700">
+  <img src="pic/framework.png" width="700">
 </p>
 
 
