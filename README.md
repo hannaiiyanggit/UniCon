@@ -1,4 +1,4 @@
-# UniCon: Universum-inspired Supervised Contrastive Learning
+# UniCon: Universum-inspired Supervised Contrastive Learning (TIP2023)
 
 The intuition of this paper is simple: why don't we assign Mixup samples to a generalized negative class? Just as humans
 may perceive, if an animal is half dog and half cat, it is actually of neither species.
@@ -81,10 +81,13 @@ python main_linear.py --batch_size 512
 ## Reference
 
 ```
-@article{han2022universum,
-  title={Universum-inspired Supervised Contrastive Learning},
-  author={Han, Aiyang and Chen, Songcan},
-  journal={arXiv preprint arXiv:2204.10695},
-  year={2022}
+@article{han2023universum,
+  title={Universum-inspired supervised contrastive learning},
+  author={Han, Aiyang and Geng, Chuanxing and Chen, Songcan},
+  journal={IEEE Transactions on Image Processing},
+  volume={32},
+  pages={4275--4286},
+  year={2023},
+  publisher={IEEE}
 }
 ```
